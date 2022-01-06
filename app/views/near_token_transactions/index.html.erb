@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+<div class="container">
+  <% if @transfer_type_transactions.any? %>
+    <h1 class="text-center text-light">Near Token Transactions with type "Transfer"</h1>
+    <table class="table table-dark table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Sender</th>
+        <th>Receiver</th>
+        <th>Deposit</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @transfer_type_transactions.each_with_index do |token_transaction, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= token_transaction.sender %></td>
+          <td><%= token_transaction.receiver %></td>
+          <td class="text-nowrap"><%= token_transaction.scaled_deposit %> NEAR</td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <% if @average_gas_burnt %>
+      <div class="mt-5">
+        <h2 class="text-light">Average Gas Burnt</h2>
+        <p class="text-light"><%= @average_gas_burnt %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <h1 class="text-center text-light">Nothing to show here =(</h1>
+    <h3 class="text-center text-light">Please, populate the DB first.</h3>
+  <% end %>
+</div>
