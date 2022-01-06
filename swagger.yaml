@@ -1,0 +1,116 @@
+openapi: 3.0.3
+info:
+  title: Figment Take Home Test
+  description: API calls for Home Test App
+  version: 1.0.0
+servers:
+  - url: 'http://figment-mock-data.figment.network'
+paths:
+  /near/transactions:
+    get:
+      summary: Returns a list of transactions.
+      description: Get a list of transactions of a simulated NEAR blockchain
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TRANSACTIONS_LIST'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      name: api_key
+      in: query
+      description: SECRET_API_KEY
+
+  schemas:
+    TRANSACTIONS_LIST:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 235234
+          created_at:
+            type: string
+            example: "2021-01-11T10:20:13.70879-06:00"
+          updated_at:
+            type: string
+            example: "2021-01-11T10:20:13.70879-06:00"
+          time:
+            type: string
+            example: "2021-01-11T10:19:19.309255-06:00"
+          height:
+            type: integer
+            example: 27326722
+          hash:
+            type: string
+            example: "DvxxuD8HDDmC1MfYvPr1rsJXR1Nbexe8uan4H2BqS8oM"
+          block_hash:
+            type: string
+            example: "ETy1cDNzRsmsUCeNChti5L6N2aPvA82Zw4zCZJKVmVrn"
+          sender:
+            type: string
+            example: "bot.pulse.near"
+          receiver:
+            type: string
+            example: "buildlinks.poolv1.near"
+          gas_burnt:
+            type: string
+            example: "2427934415604"
+          actions:
+            oneOf:
+              - $ref: '#/components/schemas/FunctionCall'
+              - $ref: '#/components/schemas/Transfer'
+
+          actions_count:
+            type: integer
+            example: 1
+          success:
+            type: boolean
+            example: true
+
+    FunctionCall:
+      type: array
+      items:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              gas:
+                type: integer
+                example: 100000000000000
+              deposit:
+                type: string
+                example: "0"
+              method_name:
+                type: string
+                example: "ping"
+          type:
+            type: string
+            example: "FunctionCall"
+
+    Transfer:
+      type: array
+      items:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              deposit:
+                type: string
+                example: "716669915088987500000000000"
+          type:
+            type: string
+            example: "Transfer"
+
+
+
+security:
+  - ApiKeyAuth: []
